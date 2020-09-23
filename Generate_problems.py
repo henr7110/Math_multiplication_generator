@@ -57,24 +57,16 @@ def latex_with_lines(df, *args, **kwargs):
 latex_table = "\\LARGE\n" + latex_with_lines(pandas_table, index=False)
 latex_table_sol = "\\LARGE\n" + latex_with_lines(pandas_table_sol, index=False)
 f = open("LaTeX_stuffs/mytable.tex", "w")
-f.write(latex_table)
+f.write(latex_table + "\n" + latex_table_sol)
 f.close()
-f = open("LaTeX_stuffs/mytable_sol.tex", "w")
-f.write(latex_table_sol)
-f.close()
+
 
 # Write latex document that imports mytable.tex
 f = open("LaTeX_stuffs/" + pdf_name + ".tex", "w")
 s = "\\documentclass{article}\n\\usepackage[a4paper, total={8in, 11in}]{geometry}\n\\usepackage{graphicx}\n\\renewcommand{\\arraystretch}{2.25}\n\\usepackage{booktabs}\n\\begin{document}\n\\input{LaTeX_stuffs/mytable}\n\\end{document}"
 f.write(s)
 f.close()
-f = open("LaTeX_stuffs/" + pdf_name + "_solutions_" + ".tex", "w")
-s = "\\documentclass{article}\n\\usepackage[a4paper, total={8in, 11in}]{geometry}\n\\usepackage{graphicx}\n\\renewcommand{\\arraystretch}{2.25}\n\\usepackage{booktabs}\n\\begin{document}\n\\input{LaTeX_stuffs/mytable_sol}\n\\end{document}"
-f.write(s)
-f.close()
 
 # Make the pdf with PDFLaTeX
 pdfl = PDFLaTeX.from_texfile("LaTeX_stuffs/" + pdf_name + ".tex")
-pdf, log, completed_process = pdfl.create_pdf(keep_pdf_file=True, keep_log_file=False)
-pdfl = PDFLaTeX.from_texfile("LaTeX_stuffs/" + pdf_name + "_solutions_" + ".tex")
 pdf, log, completed_process = pdfl.create_pdf(keep_pdf_file=True, keep_log_file=False)
